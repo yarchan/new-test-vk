@@ -9,22 +9,30 @@ const routes = [
       return import(/* webpackChunkName: "friends" */ '../views/Friends.vue')
     },
     children:[
-      { 
-        path: 'get-friends',
+      {
+        path: '',
         name: 'get-friends',
         component: function () {
-          return import(/* webpackChunkName: "get-friends" */ '../components/get-friends.vue')
-        }
+          return import(/* webpackChunkName: "friend" */ '../components/get-friends.vue')
+        },
       },
-      { 
-        path: 'list-friends',
-        name: 'list-friends',
+      {
+        path: 'list',
+        name: 'List',
         component: function () {
-          return import(/* webpackChunkName: "list-friends" */ '../components/list-friends.vue')
-        }
-      }
+          return import(/* webpackChunkName: "friend" */ '../components/list-friends.vue')
+        },
+      },
+      {
+        path: 'friend-info',
+        name: 'friend-info',
+        component: function () {
+          return import(/* webpackChunkName: "friend" */ '../components/friend-info.vue')
+        },
+      },
     ]
-  }
+  },
+
 ]
 
 const router = createRouter({

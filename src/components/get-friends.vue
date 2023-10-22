@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-if="get_friend" class="get-friends">
+    <div class="get-friends">
       <div class="mb-4">
         <button @click="getFriend" class="btn btn-primary">Загрузите список друзей</button>
       </div>
@@ -10,8 +10,8 @@
       <div class=" mb-4">
         <input v-model="select_friends" @input="newFriends" class="form-control" placeholder="Начните вводить текст для поиска друга, которого хотите добавить" type="text" name="" id="">
       </div>
-      <ul v-if="new_friends.length!=0" class="get-friends-items" >
-        <li  class="get-friends-link" v-for="(friend,index) in new_friends" :key="index">
+      <ul v-if="all_friend.length!=0" class="get-friends-items" >
+        <li  class="get-friends-link" v-for="(friend,index) in all_friend" :key="index">
           <div class="d-flex justify-content-center align-items-center">
             <img class="get-friends-link-img" :src="friend.photo_50" alt="">
             <p class="mb-0 me-2">{{friend.first_name}}</p>
@@ -24,7 +24,6 @@
         </li>
       </ul>
     </div>
-    <!-- <ListFriends v-if="!get_friend" :list_friends="new_list_friends" @get_friend="get_friend=$event"/> -->
   </div>
 </template>
 
@@ -56,61 +55,47 @@
 
 <script>
 import {ref} from 'vue'
-import list_friend from '../store/store.js'
+import {list_friend} from '../store/store.js'
+import {all_friend} from '../store/store.js'
 
 export default {
-  components:{
-    // ListFriends
-  },
   setup(){
     return{
-      AppID : '51773806',
+      AppID : '51773846',
       v : '5.154',
       friends:ref([]),
-      new_friends:ref([]),
       select_friends:ref(''),
-      new_list_friend:ref([]),
       list_friend,
+      all_friend,
       get_friend:ref(true)
     }
   },
-  beforeMount(){
-    this.init()
-  },
+
   methods:{
     buildNewListFriends(){
-      this.list_friend = this.new_friends.filter(friend=>friend.isAdd===true?friend:'')
-      console.log(this.new_list_friends);
-      this.get_friend = false
-      this.$router.push('/get-friends/list-friends')
+      this.list_friend.splice(0, this.list_friend.length);
+      this.all_friend.filter(friend=>friend.isAdd===true?this.list_friend.push(friend):'')
+      this.$router.push('/list')
     },
 
     newFriends(){
       const searchText = this.select_friends.toLowerCase();
-      this.new_friends = this.friends.filter(friend => {
+      this.all_friend = this.all_friend.filter(friend => {
         const firstName = friend.first_name.toLowerCase();
         const lastName = friend.last_name.toLowerCase();
         return friend ? firstName.startsWith(searchText) || lastName.startsWith(searchText):'';
       });
     },
-    async init(){
-      await VK.init({
-        apiId: this.AppID
-      });
-    },
-    getFriend(){
+    async getFriend(){
       self =this
-       VK.Api.call('friends.get', {
-        user_ids: 6492, 
-        fields:'photo_50',
+      // self.$router.push('/list')
+      await VK.Api.call('friends.get', {
+        fields:"photo_50,bdate,sex",
         v:this.v,
       }, 
       function(r) {
         if(r.response) {
-          self.friends = r.response.items
-          self.new_friends = r.response.items
-          localStorage.setItem('r',r.response)
-          // self.$router.push('/get-friends/list-friends')
+          self.all_friend = r.response.items
         }
       });
     }

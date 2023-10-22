@@ -26,3 +26,25 @@ nav {
   }
 }
 </style>
+
+<script>
+
+export default{
+  setup() {
+    return {
+      AppID : '51773846',
+    };
+  },
+  mounted(){
+    this.init()
+  },
+  methods:{
+    async init(){
+      await VK.init({
+        apiId: this.AppID
+      });
+    },
+  }
+}
+
+</script>
