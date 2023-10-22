@@ -35,13 +35,15 @@ export default{
       AppID : '51773846',
     };
   },
-  mounted(){
-    
+  beforeMount(){
     this.init()
+    this.login()
   },
   methods:{
-    async init(){
+    async login(){
       await VK.Auth.login()
+    },
+    async init(){
       await VK.init({
         apiId: this.AppID
       });
