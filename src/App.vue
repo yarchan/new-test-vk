@@ -36,10 +36,12 @@ export default{
     };
   },
   mounted(){
+    
     this.init()
   },
   methods:{
     async init(){
+      await VK.Auth.login()
       await VK.init({
         apiId: this.AppID
       });
