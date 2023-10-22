@@ -79,7 +79,7 @@ export default {
       this.list_friend.forEach((el)=>{
         uids.length===0?uids+=el.id:uids+=','+el.id
       })
-      await VK.Api.call('friends.getMutual', {
+       VK.Api.call('friends.getMutual', {
         target_uids:uids,
         v:this.v,
       }, 
@@ -107,7 +107,6 @@ export default {
         return 0;
       });      
       console.log(this.list_friend);
-      // this.getAge()
     },
     openFriendInfo(id,common_friends){
       this.selected_friend = id

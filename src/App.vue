@@ -33,6 +33,7 @@ export default{
   setup() {
     return {
       AppID : '51773846',
+      v : '5.154',
     };
   },
   beforeMount(){
@@ -40,8 +41,16 @@ export default{
     this.login()
   },
   methods:{
-    async login(){
-      await VK.Auth.login()
+    async login() {
+      let settings = 1 << 1
+      await VK.Auth.login(
+        function(r) {
+          if(r) {
+            console.log(r);
+          }
+        },
+        settings
+      );
     },
     async init(){
       await VK.init({
