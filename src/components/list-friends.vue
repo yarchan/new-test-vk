@@ -106,13 +106,10 @@ export default {
         if (a.last_name > b.last_name) return 1;
         return 0;
       });      
-      console.log(this.list_friend);
     },
     openFriendInfo(id,common_friends){
       this.selected_friend = id
       this.selected_friend_common = common_friends
-      console.log(this.selected_friend);
-      console.log(this.selected_friend_common);
       this.$router.push('/friend-info')
     },
   }

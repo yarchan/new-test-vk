@@ -40,15 +40,13 @@ export default{
       posts:ref([])
     }
   },
-  mounted(){
-    console.log("Choose",this.selected_friend);    
+  mounted(){   
     this.getCommonFriends()
     this.getPosts()
   },
   methods:{
     getCommonFriends(){
       this.all_friend.forEach((el)=>{(this.selected_friend_common.includes(el.id))&&(this.common_friends.push(el))})
-      console.log(this.common_friends);
     },
     async getPosts(){
       self = this
@@ -60,7 +58,6 @@ export default{
       function(r) {
         if(r.response) {
           self.posts = r.response.items
-          console.log(r.response);
         }
       });
     }  

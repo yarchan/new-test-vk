@@ -88,7 +88,6 @@ export default {
     },
     async getFriend(){
       self =this
-      // self.$router.push('/list')
       await VK.Api.call('friends.get', {
         fields:"photo_50,bdate,sex",
         v:this.v,

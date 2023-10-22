@@ -44,11 +44,7 @@ export default{
     async login() {
       let settings = 1 << 1
       await VK.Auth.login(
-        function(r) {
-          if(r) {
-            console.log(r);
-          }
-        },
+        function() {},
         settings
       );
     },
