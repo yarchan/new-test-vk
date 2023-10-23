@@ -3,7 +3,7 @@
     <button @click="this.$router.push('/')" class="btn-list btn btn-primary">Назад</button>
     <ul class="get-friends-items" >
       <li @click="openFriendInfo(friend.id,friend.common_friends)" class="get-friends-link" v-for="(friend,index) in list_friend" :key="index" :style="`background-color: rgba(18, 0, 255,${friend.percent_common_friends});`">
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="w-100 d-flex justify-content-between align-items-center">
           <img class="get-friends-link-img" :src="friend.photo_50" alt="">
           <p class="mb-0 me-2">{{friend.first_name}}</p>
           <p class="mb-0 me-2">{{friend.last_name}}</p>
@@ -52,6 +52,8 @@ export default {
   methods:{
     getAge(){
       this.list_friend.forEach((el)=>{
+        if(!el.bdate || el.bdate.length<8)
+        return
         let dobParts = el.bdate.split('.');
         let birthDate = new Date(dobParts[2], dobParts[1] - 1, dobParts[0]);
         let currentDate = new Date();
@@ -87,6 +89,7 @@ export default {
         if(r.response) {
           self.mutual_friends = r.response
           self.calcColorAndSort(r.response)
+          self.getAge()
         }else{
           console.log(r);
         }
@@ -95,7 +98,7 @@ export default {
     async calcColorAndSort(among_friends){
       let max_friends=0
       among_friends.filter((el)=>{(max_friends<el.common_count)&&(max_friends=el.common_count)})
-      await this.list_friend.forEach((el,i)=>{
+      this.list_friend.forEach((el,i)=>{
         el.common_friends=this.mutual_friends[i].common_friends
         el.percent_common_friends=(this.mutual_friends[i].common_count/max_friends).toFixed(1)
       })

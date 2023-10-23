@@ -11,7 +11,7 @@
         <input v-model="select_friends" @input="newFriends" class="form-control" placeholder="Начните вводить текст для поиска друга, которого хотите добавить" type="text" name="" id="">
       </div>
       <ul v-if="all_friend.length!=0" class="get-friends-items" >
-        <li  class="get-friends-link" v-for="(friend,index) in all_friend" :key="index">
+        <li  class="get-friends-link" v-for="(friend,index) in friends" :key="index">
           <div class="d-flex justify-content-center align-items-center">
             <img class="get-friends-link-img" :src="friend.photo_50" alt="">
             <p class="mb-0 me-2">{{friend.first_name}}</p>
@@ -35,8 +35,8 @@
     justify-content: center;
   }
   .get-friends-items{
-    min-width: 500px;
-    max-width: 500px;
+    min-width: 700px;
+    max-width: 700px;
     border: 1px solid grey;
     border-radius: 5px;
     padding: 0;
@@ -70,7 +70,9 @@ export default {
       get_friend:ref(true)
     }
   },
-
+  mounted(){
+    if(this.all_friend.length!==0)this.friends = this.all_friend 
+  },
   methods:{
     buildNewListFriends(){
       this.list_friend.splice(0, this.list_friend.length);
@@ -80,7 +82,7 @@ export default {
 
     newFriends(){
       const searchText = this.select_friends.toLowerCase();
-      this.all_friend = this.all_friend.filter(friend => {
+      this.friends = this.all_friend.filter(friend => {
         const firstName = friend.first_name.toLowerCase();
         const lastName = friend.last_name.toLowerCase();
         return friend ? firstName.startsWith(searchText) || lastName.startsWith(searchText):'';
@@ -95,6 +97,7 @@ export default {
       function(r) {
         if(r.response) {
           self.all_friend = r.response.items
+          self.friends = r.response.items
         }
       });
     }
