@@ -52,7 +52,7 @@ export default {
   methods:{
     getAge(){
       this.list_friend.forEach((el)=>{
-        if(!el.bdate || el.bdate.length<8)
+        if(!el.bdate || el.bdate.length<9)
         return
         let dobParts = el.bdate.split('.');
         let birthDate = new Date(dobParts[2], dobParts[1] - 1, dobParts[0]);
