@@ -98,17 +98,20 @@ export default {
     async calcColorAndSort(among_friends){
       let max_friends=0
       among_friends.filter((el)=>{(max_friends<el.common_count)&&(max_friends=el.common_count)})
-      this.list_friend.forEach((el,i)=>{
+      await  this.list_friend.forEach((el,i)=>{
         el.common_friends=this.mutual_friends[i].common_friends
         el.percent_common_friends=(this.mutual_friends[i].common_count/max_friends).toFixed(1)
       })
+      this.sort()
+    },
+    sort(){
       this.list_friend.sort((a, b) => {
         if (a.first_name < b.first_name) return -1;
         if (a.first_name > b.first_name) return 1;
         if (a.last_name < b.last_name) return -1;
         if (a.last_name > b.last_name) return 1;
         return 0;
-      });      
+      });     
     },
     openFriendInfo(id,common_friends){
       this.selected_friend = id
