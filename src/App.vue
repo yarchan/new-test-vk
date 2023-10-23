@@ -37,6 +37,7 @@ export default{
     };
   },
   beforeMount(){
+    console.log();
     this.$router.push('/')
     this.init()
     this.login()
